@@ -43,6 +43,8 @@ def index():
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
     related_counts =df[df.related==1].groupby(['genre']).count()['message']
+    req_offer_counts = df[["request","offer"]].sum()
+    req_offer_names = list(req_offer_counts.index)
     
     
     # create visuals
@@ -53,13 +55,14 @@ def index():
                 Bar(
                     x=genre_names,
                     y=genre_counts,
-                    name='Genre'
-                   
+                    name='Genre',  
+                    
                 ),
                  Bar(
                     x=genre_names,
                     y=related_counts,
-                     name='Related'
+                     name='Related',
+
                    
                 )
             ],
@@ -71,9 +74,30 @@ def index():
                 },
                 'xaxis': {
                     'title': "Genre/Related"
+                }
+              
+            }   
+            },
+            
+           { 'data': [
+             
+                 Bar(
+                    x=req_offer_names,
+                    y=req_offer_counts,
+                    
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Request/Offer messages',
+                'yaxis': {
+                    'title': "Count"
                 },
-                
-            }
+                'xaxis': {
+                    'title': "Request/Offer"
+                },
+               
+           },
             
         }
     ]
